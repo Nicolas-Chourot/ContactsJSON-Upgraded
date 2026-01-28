@@ -1,0 +1,64 @@
+﻿@model ContactsJSON.Models.Contact
+
+<form class="form" action="/Contacts/@ViewBag.Action" method="POST">
+    @Html.AntiForgeryToken() <!-- Injection de jeton anti contrefaçon de formulaire -->
+    <label for="Name">Nom</label>
+    <input id="Name"
+           name="Name"
+           class="form-control Alpha"
+           placeholder="Nom"
+           value="@Model.Name"
+           required
+           RequireMessage="Veuillez entrer un nom"
+           InvalidMessage="Le nom comporte un caractère illégal"
+           CustomErrorMessage="Ce nom est déjà utilisé" />
+    <label for="TownID" class="form-label">Ville </label>
+    <select name="TownId" class="form-control">
+        <option value="0" disabled selected>Sélectionnez une ville</option>
+        @foreach (ContactsJSON.Models.Town town in DAL.DB.Towns.ToList().OrderBy(t => t.Name))
+        {
+            string selected = Model.TownId == town.Id ? "selected" : "";
+            <option value="@town.Id" @selected>@town.Name</option>
+        }
+    </select>
+    <label for="Phone" class="form-label">Téléphone </label>
+    <input class="form-control Phone"
+           name="Phone"
+           id="Phone"
+           placeholder="(000) 000-0000"
+           required
+           RequireMessage="Veuillez entrer un téléphone"
+           InvalidMessage="Téléphone invalide"
+           value="@Model.Phone" />
+
+    <label for="Email" class="form-label">Courriel </label>
+    <input name="Email" class="form-control Email" placeholder="Courriel" value="@Model.Email"
+           required
+           RequireMessage="Veuillez entrer un courriel"
+           InvalidMessage="Courriel invalide" />
+
+    <label for="Birth" class="form-label">Date de naissance </label>
+    <input name="Birth" class="form-control datepicker" value="@Model.Birth"
+           required
+           RequireMessage="Veuillez entrer une date"
+           InvalidMessage="Date invalide" />
+
+    <label for="Avatar" class="form-label">Avatar </label>
+
+    <div class='imageUploader'
+         controlId='Avatar'
+         imageSrc='@Model.Avatar'
+         title="Cliquez/glisser une photo">
+    </div>
+    <input id="submit" type="submit" value="Enregistrer" class="btn btn-primary" style="display:none">
+</form>
+
+@section Scripts {
+    <script>
+        $(() => {
+            // Nécessaire pour la validation des champs de formulaire
+            initFormValidation();
+            addConflictValidation("/Contacts/CheckNameConflict", 'Name' /* field unicity check */, 'submit' /* form submit button Id */);
+        })
+    </script>
+}

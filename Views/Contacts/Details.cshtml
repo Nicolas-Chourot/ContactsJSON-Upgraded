@@ -15,7 +15,14 @@
         </dt>
 
         <dd>
-            @Model.Town
+            @if (Model.Town != "Inconnue")
+            {
+                <a href="https://www.google.com/maps/place/@Model.Town,+QC" target="_blank">@Model.Town</a>
+            }
+            else
+            {
+                @Model.Town
+            }
         </dd>
 
         <dt>
@@ -40,6 +47,10 @@
 
         <dd>
             @Model.Birth.ToLongDateString()
+            @if (Model.IsBirthDay)
+            {
+                <i class="fas fa-birthday-cake birthdayIcon"></i>
+            }
         </dd>
 
         <dt>

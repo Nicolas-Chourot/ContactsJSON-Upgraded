@@ -25,6 +25,15 @@ namespace ContactsJSON.Models
             }
         }
 
+        [JsonIgnore]
+        public bool IsBirthDay
+        {
+            get
+                {
+                return (Birth.Day == DateTime.Now.Day && Birth.Month == DateTime.Now.Month);
+            }
+        }
+
         const string Avatars_Folder = @"/App_Assets/Contacts/";
         const string Default_Avatar = @"no_avatar.png";
         [ImageAsset(Avatars_Folder, Default_Avatar)]

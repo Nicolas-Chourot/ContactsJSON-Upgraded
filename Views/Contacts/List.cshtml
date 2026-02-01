@@ -11,7 +11,8 @@
 @section Scripts {
     <script>
         $(() => {
-            let contactListPanel = new AutoRefreshedPanel("ContactListPanel", "/Contacts/GetContacts", 5 /* refresh every 5 seconds */);
+            let contactListPanel = new AutoRefreshedPanel("ContactListPanel", "/Contacts/GetContacts", 10 /* refresh every 5 seconds */);
+            let townSelectAutoRefreshPanel = new AutoRefreshedPanel("TownSelectPanel", "/Contacts/GetContactsTownsList", 20, AttachEvents);
             let keywordsOnchangeTimger = null;
             $("#searchInput").on('keyup', function () {
                 clearTimeout(keywordsOnchangeTimger);
@@ -24,6 +25,14 @@
                 clearTimeout(keywordsOnchangeTimger);
                 window.location = "/Contacts/SetSearchString?value=" + $("#searchInput").val();
             });
+            function AttachEvents() {
+                $("#townSelect").off();
+                $("#townSelect").on('change', function () {
+                    window.location = "/Contacts/SetSearchTown?value=" + $("#townSelect").val();
+                });
+                $("#townSelect").on('mouseenter', townSelectAutoRefreshPanel.pause);
+                $("#townSelect").on('mouseleave', townSelectAutoRefreshPanel.restart);
+            }
         })
     </script>
 }

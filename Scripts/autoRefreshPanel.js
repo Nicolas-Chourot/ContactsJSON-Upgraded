@@ -24,7 +24,9 @@ class AutoRefreshedPanel {
     pause() {
         this.paused = true;
     }
-    restart() { this.paused = false }
+    restart() {
+        this.paused = false
+    }
     replaceContent(htmlContent) {
         if (htmlContent !== "") {
             $("#" + this.panelId).html(htmlContent);

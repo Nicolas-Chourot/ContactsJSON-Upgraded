@@ -63,7 +63,6 @@ namespace ContactsJSON.Controllers
                 // DB.Contacts.HasChanged is true when a change has been applied on any contact
 
                 InitSessionVariables();
-                Session["ContactsTownsListHasChanged"] = true;
                 bool search = (bool)Session["Search"];
                 string searchString = (string)Session["SearchString"];
 
